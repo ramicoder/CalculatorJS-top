@@ -8,10 +8,14 @@ body {
 input {
     margin-top: 40px;
     height: 80px;
-    width: 370px;
+    width: 360px;
     background-color: lightgreen;
     border: 2.5px solid #222;
     border-radius: 2px;
+    font-size: 65px;
+    font-weight: 600;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 button {
@@ -44,6 +48,14 @@ button {
     display: flex;
     flex-direction: column;
     gap: 23px;
+}
+
+.buttons button:hover {
+    opacity: 70%;
+}
+
+.buttons button:active {
+    opacity: 90%;
 }
 .row {
     display: flex;
