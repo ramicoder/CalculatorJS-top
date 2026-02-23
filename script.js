@@ -13,6 +13,7 @@ function operate(a, b, op) {
     return op(a, b);
 }
 
+
 const log = document.getElementById("log");
 
 const nums = Array.from(document.querySelectorAll(".number"));
@@ -25,20 +26,35 @@ const opts = Array.from(document.querySelectorAll(".option"));
 let currentInput = "";
 nums.map(button => 
     button.addEventListener("click", () => {
-        currentInput += button.textContent;
-        log.value = currentInput;
+        currentInput += button.textContent; 
+        if (a === undefined) log.value = currentInput;
+        else if (!operation) log.value = currentInput + operation;
+        else log.value = a + " " + operation + " " + currentInput;
     })
 );
 
 ops.map(button =>
     button.addEventListener("click", () => {
 
-        if (button.textContent === ".") {
-
-        } else {
+       /* if (button.textContent === ".") {
+            //decimal log for later
+        } else if (button.textContent === "=") {
             
-            if (!a) a = Number(currentInput); // store first number
-            operation = button.textContent;    // store operator
-            currentInput = "";                 // reset for second number
-            log.value = a + " " + operation;   // show first number + operator
-        }}));
+            //log.value = operate(a, b, operation);
+        }
+        else { */
+            
+            if (a === undefined) {
+                a = Number(currentInput);   
+                currentInput = ""; 
+            } else if (b === undefined && currentInput !== "") {
+                b = Number(currentInput);
+                currentInput = "";
+            }
+                operation = button.textContent; 
+                currentInput = "";
+                log.value = a + " " + operation;
+            } 
+        //}
+            
+        ));
