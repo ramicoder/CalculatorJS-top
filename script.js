@@ -2,7 +2,7 @@
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
-const divide = (a, b) => a / b;
+const divide = (a, b) => b === 0 ? "Undefined" : a / b;
 
 
 let b;
@@ -36,7 +36,13 @@ nums.map(button =>
         currentInput += button.textContent; 
         if (a === undefined) log.value = Number(currentInput);
     
-        else {
+        else if (result) {
+            result = undefined;
+            a = undefined;
+            b = undefined; 
+            operation = undefined;
+            log.value = Number(currentInput);
+        } else {
             log.value = a + " " + operation + " " + Number(currentInput);
             b = Number(currentInput);
         }
@@ -64,14 +70,13 @@ ops.map(button =>
                 operation = button.textContent; 
                 //currentInput = "";
                 log.value = a + " " + operation;
+                result = undefined;
             }
         ));
 
 equals.addEventListener("click", () => {
     if (a === undefined || b === undefined || !operation) {
-        log.style.fontSize = "45px";
-        console.log("a: " + a + " op: " + operation + " b: " + b)
-        log.value = "SYNTAX ERROR";
+        log.value = "";
     } else {
         console.log("a: " + a + " op: " + operation + " b: " + b)
         result = operate(a, b, operation);
@@ -81,5 +86,17 @@ equals.addEventListener("click", () => {
         currentInput = "";
         }
     }
-)
+);
 
+opts.map(button => 
+    button.addEventListener("click", () => {
+        if (button.textContent === "AC") {
+            a = undefined;
+            b = undefined;
+            currentInput = "";
+            log.value = "";
+            operation = undefined;
+        } 
+    })
+)
+  
