@@ -60,7 +60,6 @@ ops.map(button =>
                 currentInput = "";
             }
             if (a && b) {
-                console.log("a: " + a + " op: " + operation + " b: " + b)
                 result = operate(a, b, operation);
                 log.value = result;
                 a = result;
@@ -68,7 +67,7 @@ ops.map(button =>
                 currentInput = "";
             }
                 operation = button.textContent; 
-                //currentInput = "";
+                currentInput = "";
                 log.value = a + " " + operation;
                 result = undefined;
             }
@@ -78,7 +77,6 @@ equals.addEventListener("click", () => {
     if (a === undefined || b === undefined || !operation) {
         log.value = "";
     } else {
-        console.log("a: " + a + " op: " + operation + " b: " + b)
         result = operate(a, b, operation);
         log.value = result;
         a = result;
@@ -97,6 +95,32 @@ opts.map(button =>
             log.value = "";
             operation = undefined;
         } 
+        if (button.textContent === "⌫") {
+
+            if (result !== undefined) {
+                
+                a = undefined;
+                b = undefined;
+                operation = undefined;
+                currentInput = "";
+                result = undefined;
+                log.value = "";
+                return;
+            }
+            if (currentInput.length > 0) {
+                currentInput = currentInput.slice(0, -1);
+            }
+            if (a === undefined) {
+                log.value = currentInput;
+            } else if (operation && currentInput === "") {
+                operation = undefined;
+                log.value = a;
+            } else {
+                b = currentInput ? Number(currentInput) : undefined;
+                log.value = a + " " + operation + (currentInput ? " " + currentInput : "");
+            }
+        }
     })
+
 )
   
