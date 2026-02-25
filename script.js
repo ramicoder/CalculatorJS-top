@@ -16,24 +16,22 @@ function operate(a, b, op) {
     if (op == "/") return divide(a, b);
 }
 
+const container = document.querySelector(".container");
 const log = document.getElementById("log");
-
 const nums = Array.from(document.querySelectorAll(".number"));
-
 const ops = Array.from(document.querySelectorAll(".operation"));
-
 const opts = Array.from(document.querySelectorAll(".option"));
-
 const decimal = document.querySelector(".decimal");
-
 const equals = document.querySelector(".equals");
-
+const clickSound = "click.mp3";
 let result;
 
 let currentInput = "";
 nums.map(button => 
     button.addEventListener("click", () => {
         currentInput += button.textContent; 
+        const audio = new Audio(clickSound);
+        audio.play()
         if (a === undefined) log.value = Number(currentInput);
     
         else if (result) {
@@ -51,29 +49,30 @@ nums.map(button =>
 
 ops.map(button =>
     button.addEventListener("click", () => {
-            
+            const audio = new Audio(clickSound);
+            audio.play()
             if (a === undefined) {
                 a = Number(currentInput);   
-                currentInput = ""; 
             } else if (b === undefined) {
                 b = Number(currentInput);
-                currentInput = "";
             }
             if (a && b) {
                 result = operate(a, b, operation);
                 log.value = result;
                 a = result;
                 b = undefined;
-                currentInput = "";
             }
                 operation = button.textContent; 
                 currentInput = "";
                 log.value = a + " " + operation;
                 result = undefined;
+                decimal.disabled = false;
             }
         ));
 
 equals.addEventListener("click", () => {
+    const audio = new Audio(clickSound);
+    audio.play()
     if (a === undefined || b === undefined || !operation) {
         log.value = "";
     } else {
@@ -88,6 +87,8 @@ equals.addEventListener("click", () => {
 
 opts.map(button => 
     button.addEventListener("click", () => {
+        const audio = new Audio(clickSound);
+        audio.play()
         if (button.textContent === "AC") {
             a = undefined;
             b = undefined;
@@ -97,7 +98,7 @@ opts.map(button =>
         } 
         if (button.textContent === "⌫") {
 
-            if (result !== undefined) {
+            if (result != undefined) {
                 
                 a = undefined;
                 b = undefined;
@@ -113,14 +114,26 @@ opts.map(button =>
             if (a === undefined) {
                 log.value = currentInput;
             } else if (operation && currentInput === "") {
-                operation = undefined;
-                log.value = a;
+                log.value = a + " " + operation;
             } else {
                 b = currentInput ? Number(currentInput) : undefined;
                 log.value = a + " " + operation + (currentInput ? " " + currentInput : "");
             }
         }
     })
+);
 
-)
+let deciClicked = false;
+decimal.addEventListener("click", () => {
+    const audio = new Audio(clickSound);
+    audio.play()
+    if (deciClicked === false) deciClicked = true;
+    if (deciClicked === true) {
+        currentInput += "."
+        decimal.disabled = true;
+    }
+})
   
+const p = document.createElement("p");
+p.textContent = "Created by Rami Daood";
+container.after(p);
